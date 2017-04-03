@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Tax Exemptions</h3>
+    </div>
+    <div class="panel-body panel-table">
+        <table class="table table-hover">
+            <tbody>
+                <tr *ngFor="let exemption of exemptions" (click)="editExemption(exemption)">
+                    <td>{{exemption.name}}</td>
+                    <td>{{exemption.amount || 0 | currency:'USD':true:'1.0-0'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer">
+        <div class="text-right">
+            <button class="btn btn-default" (click)="createNewExemption()">+</button>
+        </div>
+    </div>
+</div>
+
+<modal (keyup.enter)="saveExemption()" #modal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">New Tax Exemption</h4>
+    </modal-header>
+    <modal-body>
+        <form #modalForm="ngForm">
+            <div class="form-group">
+                <label for="tax-exemption-name">Name of Tax Exemption</label>
+                <input id="tax-exemption-name" name="tax-exemption-name" autofocus required [(ngModel)]="selectedExemption.name" type="text" class="form-control" placeholder="Name of Tax Exemption">
+            </div>
+            <div class="form-group">
+                <label for="tax-exemption-amount">Amount</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="tax-exemption-amount" name="tax-exemption-amount" required [(ngModel)]="selectedExemption.amount" type="text" class="form-control" placeholder="Amount">
+                </div>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <button *ngIf="selectedExemption.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteExemption(selectedExemption.id)">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="saveExemption()">Save</button>
+    </modal-footer>
+</modal>
