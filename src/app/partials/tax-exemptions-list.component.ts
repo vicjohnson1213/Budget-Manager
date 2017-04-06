@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, ViewChild, Input, Output } from '@angular/core';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
@@ -11,7 +11,8 @@ import { TaxExemptionService } from '../services/tax-exemption.service';
 })
 
 export class TaxExemptionsListComponent {
-  exemptions: TaxExemption[];
+  @Input() exemptions: TaxExemption[];
+  @Output() onTaxExemptionsChanged = new EventEmitter<TaxExemption[]>();
 
   @ViewChild('modal')
   modal: ModalComponent;
@@ -19,8 +20,13 @@ export class TaxExemptionsListComponent {
 
   constructor(private taxExemptionService: TaxExemptionService) {}
 
+  setExemptions(exemptions) {
+    this.exemptions = exemptions;
+    this.onTaxExemptionsChanged.emit(this.exemptions);
+  }
+
   getExemptions(): void {
-    this.taxExemptionService.getTaxExemptions().then(exemptions => this.exemptions = exemptions);
+    this.taxExemptionService.getTaxExemptions().then(exemptions => this.setExemptions(exemptions));
   }
 
   createNewExemption(): void {
@@ -35,23 +41,23 @@ export class TaxExemptionsListComponent {
 
   deleteExemption(exemptionId) {
     this.taxExemptionService.deleteTaxExemption(exemptionId)
-        .then(exemptions => this.exemptions = exemptions);
+        .then(exemptions => this.setExemptions(exemptions));
     this.modal.close();
   }
 
   saveExemption(): void {
     if (this.selectedExemption.id) {
       this.taxExemptionService.updateTaxExemption(this.selectedExemption)
-        .then(exemptions => this.exemptions = exemptions);
+        .then(exemptions => this.setExemptions(exemptions));
     } else {
       this.taxExemptionService.createTaxExemption(this.selectedExemption)
-        .then(exemptions => this.exemptions = exemptions);
+        .then(exemptions => this.setExemptions(exemptions));
     }
 
     this.modal.close();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getExemptions();
   }
 }

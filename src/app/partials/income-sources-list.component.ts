@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, ViewChild, Input, Output } from '@angular/core';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
@@ -11,7 +11,8 @@ import { IncomeSourceService } from '../services/income-source.service';
 })
 
 export class IncomeSourcesListComponent {
-  incomeSources: IncomeSource[];
+  @Input() incomeSources: IncomeSource[];
+  @Output() onIncomeSourcesChanged = new EventEmitter<IncomeSource[]>();
 
   @ViewChild('modal')
   modal: ModalComponent;
@@ -19,8 +20,14 @@ export class IncomeSourcesListComponent {
 
   constructor(private incomeSourceService: IncomeSourceService) {}
 
+  setIncomeSources(sources) {
+    this.incomeSources = sources;
+    this.onIncomeSourcesChanged.emit(this.incomeSources);
+  }
+
   getIncomeSources(): void {
-    this.incomeSourceService.getIncomeSources().then(sources => this.incomeSources = sources);
+    this.incomeSourceService.getIncomeSources()
+      .then(s => this.setIncomeSources(s));
   }
 
   createNewSource(): void {
@@ -35,23 +42,23 @@ export class IncomeSourcesListComponent {
 
   deleteSource(sourceId) {
     this.incomeSourceService.deleteIncomeSource(sourceId)
-        .then(sources => this.incomeSources = sources);
+        .then(s => this.setIncomeSources(s));
     this.modal.close();
   }
 
   saveIncomeSource(): void {
     if (this.selectedSource.id) {
       this.incomeSourceService.updateIncomeSource(this.selectedSource)
-        .then(sources => this.incomeSources = sources);
+        .then(s => this.setIncomeSources(s));
     } else {
       this.incomeSourceService.createIncomeSource(this.selectedSource)
-        .then(sources => this.incomeSources = sources);
+        .then(s => this.setIncomeSources(s));
     }
 
     this.modal.close();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getIncomeSources();
   }
 }

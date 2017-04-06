@@ -14,7 +14,7 @@
     </div>
     <div class="panel-footer">
         <div class="text-right">
-            <button class="btn btn-default" (click)="createNewExemption()">+</button>
+            <button class="btn btn-default" (click)="createNewExemption()">Add New Tax Exemption</button>
         </div>
     </div>
 </div>
@@ -39,7 +39,7 @@
         </form>
     </modal-body>
     <modal-footer>
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button> -->
         <button *ngIf="selectedExemption.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteExemption(selectedExemption.id)">Delete</button>
         <button type="button" class="btn btn-primary" (click)="saveExemption()">Save</button>
     </modal-footer>

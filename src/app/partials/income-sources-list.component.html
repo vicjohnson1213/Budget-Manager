@@ -14,7 +14,7 @@
     </div>
     <div class="panel-footer">
         <div class="text-right">
-            <button class="btn btn-default" (click)="createNewSource()">+</button>
+            <button class="btn btn-default" (click)="createNewSource()">Add New Source of Income</button>
         </div>
     </div>
 </div>
@@ -39,7 +39,7 @@
         </form>
     </modal-body>
     <modal-footer>
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button> -->
         <button *ngIf="selectedSource.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteSource(selectedSource.id)">Delete</button>
         <button type="button" class="btn btn-primary" (click)="saveIncomeSource()">Save</button>
     </modal-footer>
