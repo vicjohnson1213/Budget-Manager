@@ -1,15 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* COLORS 
-
-Primary:   #297373
-Secondary: #122C34
-Accent 1:  #6fffA1
-Accent 2:  #F9D66B
-Accent 3:  #FF7869
-
-*/
-
 body {
     background-color: #eee;
     font-family: 'Open Sans', sans-serif;
@@ -42,7 +32,14 @@ ul {
 }
 
 .budget-category {
-    padding: 5px 0;
+    padding: 10px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.budget-category:hover {
+    background-color: rgba(0, 0, 0, .05);
+    cursor: pointer;
 }
 
 .budget-category h3 {
@@ -57,6 +54,11 @@ ul {
     margin-left: 0;
     margin-right: 0;
     margin-top: 5px;
+}
+
+.row.budget-item:hover {
+    background: rgba(0, 0, 0, .15);
+    cursor: pointer;
 }
 
 /* BOOSTRAP OVERRIDES */
