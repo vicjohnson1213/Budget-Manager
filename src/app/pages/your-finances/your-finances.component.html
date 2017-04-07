@@ -7,19 +7,19 @@
                     <div class="row">
                         <div class="col-xs-3">
                             <p>Gross Income</p>
-                            <h1>{{grossIncome | currency:'USD':true:'1.0-0'}}</h1>
+                            <h1>{{finances.grossIncome || 0 | currency:'USD':true:'1.0-0'}}</h1>
                         </div>
                         <div class="col-xs-3">
                             <p>Estimated Taxes</p>
-                            <h1>{{estimatedTaxes | currency:'USD':true:'1.0-0'}}</h1>
+                            <h1>{{finances.estimatedTaxes || 0 | currency:'USD':true:'1.0-0'}}</h1>
                         </div>
                         <div class="col-xs-3">
                             <p>Estimated Net Income</p>
-                            <h1>{{estimatedNetIncome | currency:'USD':true:'1.0-0'}}</h1>
+                            <h1>{{finances.estimatedNetIncome || 0 | currency:'USD':true:'1.0-0'}}</h1>
                         </div>
                         <div class="col-xs-3">
                             <p>Estimated Net Monthly Income</p>
-                            <h1>{{estimatedNetIncome / 12 | currency:'USD':true:'1.0-0'}}</h1>
+                            <h1>{{(finances.estimatedNetIncome || 0) / 12 | currency:'USD':true:'1.0-0'}}</h1>
                         </div>
                     </div>
                 </div>
@@ -28,12 +28,204 @@
     </div>
     <div class="row">
         <div class="col-xs-6">
-            <income-sources-list (onIncomeSourcesChanged)="onIncomeSourcesChanged($event)"></income-sources-list>
+
+            <!-- BEGIN INCOME SOURCES PANEL -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sources of Income</h3>
+                </div>
+                <div class="panel-body panel-table">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr *ngFor="let source of finances.incomeSources" (click)="editIncomeSource(source)">
+                                <td>{{source.name}}</td>
+                                <td>{{source.annualAmount || 0 | currency:'USD':true:'1.0-0'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <div class="text-right">
+                        <button class="btn btn-default" (click)="createNewIncomeSource()">Add New Source of Income</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END INCOME SOURCES PANEL -->
+
         </div>
         <div class="col-xs-6">
-            <tax-deductions-list (onTaxDeductionsChanged)="onTaxDeductionsChanged($event)"></tax-deductions-list>
-            <tax-exemptions-list (onTaxExemptionsChanged)="onTaxExemptionsChanged($event)"></tax-exemptions-list>
-            <tax-credits-list (onTaxCreditsChanged)="onTaxCreditsChanged($event)"></tax-credits-list>
+
+            <!-- BEGIN TAX DEDUCTIONS PANEL -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Tax Deductions</h3>
+                </div>
+                <div class="panel-body panel-table">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr *ngFor="let deduction of finances.taxDeductions" (click)="editTaxDeduction(deduction)">
+                                <td>{{deduction.name}}</td>
+                                <td>{{deduction.amount || 0 | currency:'USD':true:'1.0-0'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <div class="text-right">
+                        <button class="btn btn-default" (click)="createNewTaxDeduction()">Add New Tax Deduction</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END TAX DEDUCTIONS PANEL -->
+
+            <!-- BEGIN TAX EXEMPTIONS PANEL -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Tax Exemptions</h3>
+                </div>
+                <div class="panel-body panel-table">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr *ngFor="let exemption of finances.taxExemptions" (click)="editTaxExemption(exemption)">
+                                <td>{{exemption.name}}</td>
+                                <td>{{exemption.amount || 0 | currency:'USD':true:'1.0-0'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <div class="text-right">
+                        <button class="btn btn-default" (click)="createNewTaxExemption()">Add New Tax Exemption</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END TAX EXEMPTIONS PANEL -->
+
+            <!-- BEGIN TAX CREDITS PANEL -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Tax Credits</h3>
+                </div>
+                <div class="panel-body panel-table">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr *ngFor="let credit of finances.taxCredits" (click)="editTaxCredit(credit)">
+                                <td>{{credit.name}}</td>
+                                <td>{{credit.amount || 0 | currency:'USD':true:'1.0-0'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <div class="text-right">
+                        <button class="btn btn-default" (click)="createNewTaxCredit()">Add New Tax Credit</button>
+                    </div>
+                </div>
+            </div>
+            <!-- END TAX CREDITS PANEL -->
+
         </div>
     </div>
 </div>
+
+
+<modal (keyup.enter)="saveIncomeSource()" #incomeSourceModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">New Source of Income</h4>
+    </modal-header>
+    <modal-body>
+        <form #modalForm="ngForm">
+            <div class="form-group">
+                <label for="income-source-name">Name of Income Source</label>
+                <input id="income-source-name" name="income-source-name" autofocus required [(ngModel)]="selectedIncomeSource.name" type="text" class="form-control" placeholder="Name of Income Source">
+            </div>
+            <div class="form-group">
+                <label for="income-source-amount">Annual Amount</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="income-source-amount" name="income-source-amount" required [(ngModel)]="selectedIncomeSource.annualAmount" type="text" class="form-control" placeholder="Annual Amount">
+                </div>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button *ngIf="selectedIncomeSource.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteIncomeSource(selectedIncomeSource.id)">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="saveIncomeSource()">Save</button>
+    </modal-footer>
+</modal>
+
+<modal (keyup.enter)="saveTaxDeduction()" #taxDeductionModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">New Tax Deduction</h4>
+    </modal-header>
+    <modal-body>
+        <form #modalForm="ngForm">
+            <div class="form-group">
+                <label for="tax-deduction-name">Name of Tax Deduction</label>
+                <input id="tax-deduction-name" name="tax-deduction-name" autofocus required [(ngModel)]="selectedTaxDeduction.name" type="text" class="form-control" placeholder="Name of Tax Deduction">
+            </div>
+            <div class="form-group">
+                <label for="tax-deduction-amount">Amount</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="tax-deduction-amount" name="tax-deduction-amount" required [(ngModel)]="selectedTaxDeduction.amount" type="text" class="form-control" placeholder="Amount">
+                </div>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button> -->
+        <button *ngIf="selectedTaxDeduction.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteTaxDeduction(selectedTaxDeduction.id)">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="saveTaxDeduction()">Save</button>
+    </modal-footer>
+</modal>
+
+<modal (keyup.enter)="saveTaxExemption()" #taxExemptionModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">New Tax Exemption</h4>
+    </modal-header>
+    <modal-body>
+        <form #modalForm="ngForm">
+            <div class="form-group">
+                <label for="tax-exemption-name">Name of Tax Exemption</label>
+                <input id="tax-exemption-name" name="tax-exemption-name" autofocus required [(ngModel)]="selectedTaxExemption.name" type="text" class="form-control" placeholder="Name of Tax Exemption">
+            </div>
+            <div class="form-group">
+                <label for="tax-exemption-amount">Amount</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="tax-exemption-amount" name="tax-exemption-amount" required [(ngModel)]="selectedTaxExemption.amount" type="text" class="form-control" placeholder="Amount">
+                </div>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button *ngIf="selectedTaxExemption.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteTaxExemption(selectedTaxExemption.id)">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="saveTaxExemption()">Save</button>
+    </modal-footer>
+</modal>
+
+<modal (keyup.enter)="saveTaxCredit()" #taxCreditModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">New Tax Credit</h4>
+    </modal-header>
+    <modal-body>
+        <form #modalForm="ngForm">
+            <div class="form-group">
+                <label for="tax-credit-name">Name of Tax Credit</label>
+                <input id="tax-credit-name" name="tax-credit-name" autofocus required [(ngModel)]="selectedTaxCredit.name" type="text" class="form-control" placeholder="Name of Tax Credit">
+            </div>
+            <div class="form-group">
+                <label for="tax-credit-amount">Amount</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="tax-credit-amount" name="tax-credit-amount" required [(ngModel)]="selectedTaxCredit.amount" type="text" class="form-control" placeholder="Amount">
+                </div>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button *ngIf="selectedTaxCredit.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteTaxCredit()">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="saveTaxCredit()">Save</button>
+    </modal-footer>
+</modal>

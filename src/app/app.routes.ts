@@ -5,10 +5,10 @@ import { YourFinancesComponent } from './pages/your-finances/your-finances.compo
 import { BudgetsComponent } from './pages/budgets/budgets.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'budgets', component: BudgetsComponent },
-  { path: 'your-finances', component: YourFinancesComponent }
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'budgets', component: BudgetsComponent },
+    { path: 'your-finances', component: YourFinancesComponent }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

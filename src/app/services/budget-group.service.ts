@@ -7,117 +7,94 @@ import { BudgetGroup } from '../models/budget-group';
 
 @Injectable()
 export class BudgetGroupService {
-  private url = '/api/v1/budget';
+    private url = '/api/v1/budget';
 
-  constructor(private http: Http) { }
+    constructor(private http: Http) { }
 
-  getBudgetGroups(): Promise<BudgetGroup[]> {
-    return this.http.get(this.url)
-     .toPromise()
-     .then(response => {
-       return response.json() as BudgetGroup[]
-     })
-     .catch(this.handleError);
-  }
+    /* BEGIN BUDGET GROUPS */
 
-  createBudgetGroup(category): Promise<BudgetGroup[]> {
-    return this.http.post(this.url + '/categories', category)
-      .toPromise()
-      .then(response => {
-        return response.json() as BudgetGroup[]
-     })
-     .catch(this.handleError);
-  }
+    getBudgetGroups(): Promise<BudgetGroup[]> {
+        return this.http.get(this.url)
+         .toPromise()
+         .then(response => {
+             return response.json() as BudgetGroup[]
+         })
+         .catch(this.handleError);
+    }
 
-  updateBudgetGroup(category): Promise<BudgetGroup[]> {
-    var newUrl = this.url + '/categories/' + category.id;
+    createBudgetGroup(category): Promise<BudgetGroup[]> {
+        return this.http.post(this.url + '/categories', category)
+            .toPromise()
+            .then(response => {
+                return response.json() as BudgetGroup[]
+         })
+         .catch(this.handleError);
+    }
 
-    return this.http.put(newUrl, category)
-      .toPromise()
-      .then(response => {
-        return response.json() as BudgetGroup[]
-     })
-     .catch(this.handleError);
-  }
+    updateBudgetGroup(category): Promise<BudgetGroup[]> {
+        var newUrl = this.url + '/categories/' + category.id;
 
-  deleteBudgetGroup(categoryId): Promise<BudgetGroup[]> {
-    var newUrl = this.url + '/categories/' + categoryId;
+        return this.http.put(newUrl, category)
+            .toPromise()
+            .then(response => {
+                return response.json() as BudgetGroup[]
+         })
+         .catch(this.handleError);
+    }
 
-    return this.http.delete(newUrl)
-      .toPromise()
-      .then(response => {
-        return response.json() as BudgetGroup[]
-     })
-     .catch(this.handleError);
-  }
+    deleteBudgetGroup(categoryId): Promise<BudgetGroup[]> {
+        var newUrl = this.url + '/categories/' + categoryId;
 
-  createBudgetItem(groupId, item): Promise<BudgetGroup[]> {
-    var newUrl = this.url + '/items';
+        return this.http.delete(newUrl)
+            .toPromise()
+            .then(response => {
+                return response.json() as BudgetGroup[]
+         })
+         .catch(this.handleError);
+    }
 
-    item.budgetCategoryId = groupId;
+    /* END BUDGET GROUPS */
 
-    return this.http.post(newUrl, item)
-      .toPromise()
-      .then(response => {
-        return response.json() as BudgetGroup[]
-     })
-     .catch(this.handleError);
-  }
+    /* BEGIN BUDGET ITEMS */
 
-  editBudgetItem(groupId, item): Promise<BudgetGroup[]> {
-    var newUrl = this.url + '/items/' + item.id;
+    createBudgetItem(groupId, item): Promise<BudgetGroup[]> {
+        var newUrl = this.url + '/items';
 
-    item.budgetCategoryId = groupId;
+        item.budgetCategoryId = groupId;
 
-    return this.http.put(newUrl, item)
-      .toPromise()
-      .then(response => {
-        return response.json() as BudgetGroup[]
-     })
-     .catch(this.handleError);
-  }
+        return this.http.post(newUrl, item)
+            .toPromise()
+            .then(response => {
+                return response.json() as BudgetGroup[]
+         })
+         .catch(this.handleError);
+    }
 
-  deleteBudgetItem(itemId): Promise<BudgetGroup[]> {
-    return this.http.delete(this.url + '/items/' + itemId)
-      .toPromise()
-      .then(response => {
-        return response.json() as BudgetGroup[]
-     })
-     .catch(this.handleError);
-  }
+    editBudgetItem(groupId, item): Promise<BudgetGroup[]> {
+        var newUrl = this.url + '/items/' + item.id;
 
-  // createBudgetCategory(category): Promise<BudgetGroup[]> {
-  //   return this.http.post(this.url, category)
-  //     .toPromise()
-  //     .then(response => {
-  //       return response.json() as BudgetGroup[]
-  //     })
-  //    .catch(this.handleError);
-  // }
+        item.budgetCategoryId = groupId;
 
-  // updateBudgetCategory(category): Promise<BudgetGroup[]> {
-  //   var newUrl = this.url + '/' + category.id;
+        return this.http.put(newUrl, item)
+            .toPromise()
+            .then(response => {
+                return response.json() as BudgetGroup[]
+         })
+         .catch(this.handleError);
+    }
 
-  //   return this.http.put(newUrl, category)
-  //     .toPromise()
-  //     .then(response => {
-  //       return response.json() as BudgetGroup[]
-  //     })
-  //    .catch(this.handleError);
-  // }
+    deleteBudgetItem(itemId): Promise<BudgetGroup[]> {
+        return this.http.delete(this.url + '/items/' + itemId)
+            .toPromise()
+            .then(response => {
+                return response.json() as BudgetGroup[]
+         })
+         .catch(this.handleError);
+    }
 
-  // deleteBudgetCategory(categoryId): Promise<BudgetGroup[]> {
-  //   var newUrl = this.url + '/' + categoryId;
-    
-  //   return this.http.delete(newUrl)
-  //     .toPromise()
-  //     .then(response => {
-  //       return response.json() as BudgetGroup[]
-  //     })
-  //    .catch(this.handleError);
-  // }
+    /* END BUDGET ITEMS */
 
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
-  }
+    private handleError(error: any): Promise<any> {
+        return Promise.reject(error.message || error);
+    }
 }
