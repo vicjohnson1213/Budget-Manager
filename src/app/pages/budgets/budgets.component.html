@@ -2,9 +2,85 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-6">
-            <budget-items-list></budget-items-list>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Your Monthly Budget</h3>
+                </div>
+                <div class="panel-body panel-table">
+                    <table class="table">
+                        <tbody>
+                            <tr *ngFor="let group of budget">
+                                <td>
+                                    <div class="row budget-category">
+                                        <div class="col-xs-12" (click)="editBudgetGroup(group.id, group)">
+                                            <h3>{{group.name}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row budget-item" *ngFor="let item of group.items" (click)="editBudgetItem(group.id, item)">
+                                        <div class="col-xs-6">
+                                            {{item.name}}
+                                        </div>
+                                        <div class="col-xs-6">
+                                            {{item.amount || 0 | currency:'USD':true:'1.0-0'}}
+                                        </div>
+                                    </div>
+                                    <div class="row budget-item text-center" (click)="createNewBudgetItem(group.id)">+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <div class="text-right">
+                        <button class="btn btn-default" (click)="createNewBudgetGroup()">Add New Group</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-xs-6">
         </div>
     </div>
 </div>
+
+<modal (keyup.enter)="saveBudgetGroup()" #budgetGroupModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">New Budget Category</h4>
+    </modal-header>
+    <modal-body>
+        <form #modalForm="ngForm">
+            <div class="form-group">
+                <label for="category-name">Name of Category</label>
+                <input id="category-name" name="category-name" autofocus required [(ngModel)]="budgetGroup.name" type="text" class="form-control" placeholder="Name of Category">
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button *ngIf="budgetGroup.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteBudgetGroup()">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="saveBudgetGroup()">Save</button>
+    </modal-footer>
+</modal>
+
+<modal (keyup.enter)="saveBudgetItem()" #budgetItemModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">New Budget Item</h4>
+    </modal-header>
+    <modal-body>
+        <form #modalForm="ngForm">
+            <div class="form-group">
+                <label for="item-name">Name of Budget Item</label>
+                <input id="item-name" name="item-name" autofocus required [(ngModel)]="budgetItem.name" type="text" class="form-control" placeholder="Name of Item">
+            </div>
+            <div class="form-group">
+                <label for="budget-item-amount">Annual Amount</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input id="budget-item-amount" name="budget-item-amount" required [(ngModel)]="budgetItem.amount" type="text" class="form-control" placeholder="Amount">
+                </div>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button *ngIf="budgetItem.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteBudgetItem()">Delete</button>
+        <button type="button" class="btn btn-primary" (click)="savebudgetIItem()">Save</button>
+    </modal-footer>
+</modal>

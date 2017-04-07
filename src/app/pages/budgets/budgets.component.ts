@@ -13,7 +13,7 @@ import { BudgetGroupService } from '../../services/budget-group.service';
 })
 
 export class BudgetsComponent {
-    budgetGroups: BudgetGroup[];
+    budget: BudgetGroup[];
     selectedGroupId: number;
 
     constructor(private budgetGroupService: BudgetGroupService) {}
@@ -25,7 +25,8 @@ export class BudgetsComponent {
     budgetGroup: BudgetGroup = new BudgetGroup();
 
     setBudget(groups) {
-        this.budgetGroups = groups;
+        console.log
+        this.budget = groups;
     }
 
     createNewBudgetGroup(): void {
@@ -53,7 +54,7 @@ export class BudgetsComponent {
     deleteBudgetGroup(): void {
         this.budgetGroupService.deleteBudgetGroup(this.budgetGroup.id)
             .then(groups => { this.setBudget(groups) });
-            
+
         this.budgetGroupModal.close();
     }
 
@@ -99,7 +100,7 @@ export class BudgetsComponent {
     /* END BUDGET ITEMS */
 
     ngOnInit() {
-            this.budgetGroupService.getBudgetGroups()
-                .then(groups => this.setBudget(groups));
+        this.budgetGroupService.getBudgetGroups()
+            .then(groups => this.setBudget(groups));
     }
 }

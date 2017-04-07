@@ -11,8 +11,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { YourFinancesComponent } from './pages/your-finances/your-finances.component';
 import { BudgetsComponent } from './pages/budgets/budgets.component';
 
-import { BudgetItemsListComponent } from './partials/budget-items-list.component';
-
 import { IncomeSourceService } from './services/income-source.service';
 import { TaxDeductionService } from './services/tax-deduction.service';
 import { TaxExemptionService } from './services/tax-exemption.service';
@@ -30,8 +28,6 @@ import { routes } from './app.routes';
         DashboardComponent,
         YourFinancesComponent,
         BudgetsComponent,
-    
-        BudgetItemsListComponent
     ],
     imports: [
         BrowserModule,
