@@ -2,21 +2,25 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-import { BudgetGroup } from '../../models/budget-group'
+import { BudgetGroup } from '../../models/budget-group';
 import { BudgetItem } from '../../models/budget-item';
 import { BudgetGroupService } from '../../services/budget-group.service';
 
+import { Finances } from '../../models/finances';
+import { FinanceService } from '../../services/finances.service';
+
 @Component({
     selector: 'budgets',
-    templateUrl: './budgets.component.html',
-    styleUrls: ['./budgets.component.css']
+    templateUrl: './budgets.component.html'
 })
 
 export class BudgetsComponent {
     budget: BudgetGroup[];
+    finances: Finances = new Finances();
     selectedGroupId: number;
 
-    constructor(private budgetGroupService: BudgetGroupService) {}
+    constructor(private budgetGroupService: BudgetGroupService,
+                private financeService: FinanceService) {}
 
     /* BEGIN BUDGET GROUPS */
 
@@ -102,5 +106,8 @@ export class BudgetsComponent {
     ngOnInit() {
         this.budgetGroupService.getBudgetGroups()
             .then(groups => this.setBudget(groups));
+
+        this.financeService.get()
+            .then(finances => this.finances = finances);
     }
 }

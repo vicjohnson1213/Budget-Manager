@@ -20,8 +20,7 @@ import { FinanceService } from '../../services/finances.service';
 
 @Component({
     selector: 'your-finances',
-    templateUrl: './your-finances.component.html',
-    styleUrls: ['./your-finances.component.css']
+    templateUrl: './your-finances.component.html'
 })
 
 export class YourFinancesComponent {

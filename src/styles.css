@@ -31,37 +31,62 @@ ul {
     list-style-type: none;
 }
 
-.budget-category {
-    padding: 10px;
+.my-table {
+
+}
+
+.my-table-group {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.my-table-group-title {
+    padding: 5px 10px;
     margin-left: 0;
     margin-right: 0;
 }
 
-.budget-category:hover {
+.my-table-group-title:hover {
     background-color: rgba(0, 0, 0, .05);
     cursor: pointer;
 }
 
-.budget-category h3 {
+.my-table-group-title h3 {
     margin: 0;
     display: inline-block;
 }
 
-.row.budget-item {
+.row.my-table-row {
     background-color: #eee;
     padding: 10px;
-    margin-left: 50px;
     margin-left: 0;
     margin-right: 0;
     margin-top: 5px;
 }
 
-.row.budget-item:hover {
+.row.my-table-row:hover {
     background: rgba(0, 0, 0, .15);
     cursor: pointer;
 }
 
+.row.my-table-header {
+    padding: 0 10px;
+    margin-top: 5px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.row.my-table-header p {
+    font-size: 10pt;
+    margin: 0;
+}
+
+
 /* BOOSTRAP OVERRIDES */
+
+.text-danger {
+    color: #db5139;
+}
 
 .btn-danger {
     background-color: #db5139;
@@ -132,6 +157,12 @@ ul {
 .panel-default > .panel-footer {
     background-color: white;
     border: none;
+}
+
+.panel-default > .panel-heading .row,
+.panel-default > .panel-footer .row {
+    margin-left: -10px;
+    margin-right: -10px;
 }
 
 .panel-title {
