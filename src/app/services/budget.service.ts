@@ -3,52 +3,52 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { BudgetGroup } from '../models/budget-group';
+import { Budget } from '../models/budget';
 
 @Injectable()
-export class BudgetGroupService {
+export class BudgetService {
     private url = '/api/v1/budget';
 
     constructor(private http: Http) { }
 
     /* BEGIN BUDGET GROUPS */
 
-    getBudgetGroups(): Promise<BudgetGroup[]> {
+    get(): Promise<Budget> {
         return this.http.get(this.url)
          .toPromise()
          .then(response => {
-             return response.json() as BudgetGroup[]
+             return response.json() as Budget
          })
          .catch(this.handleError);
     }
 
-    createBudgetGroup(category): Promise<BudgetGroup[]> {
+    createBudgetCategory(category): Promise<Budget> {
         return this.http.post(this.url + '/categories', category)
             .toPromise()
             .then(response => {
-                return response.json() as BudgetGroup[]
+                return response.json() as Budget
          })
          .catch(this.handleError);
     }
 
-    updateBudgetGroup(category): Promise<BudgetGroup[]> {
+    updateBudgetCategory(category): Promise<Budget> {
         var newUrl = this.url + '/categories/' + category.id;
 
         return this.http.put(newUrl, category)
             .toPromise()
             .then(response => {
-                return response.json() as BudgetGroup[]
+                return response.json() as Budget
          })
          .catch(this.handleError);
     }
 
-    deleteBudgetGroup(categoryId): Promise<BudgetGroup[]> {
+    deleteBudgetCategory(categoryId): Promise<Budget> {
         var newUrl = this.url + '/categories/' + categoryId;
 
         return this.http.delete(newUrl)
             .toPromise()
             .then(response => {
-                return response.json() as BudgetGroup[]
+                return response.json() as Budget
          })
          .catch(this.handleError);
     }
@@ -57,7 +57,7 @@ export class BudgetGroupService {
 
     /* BEGIN BUDGET ITEMS */
 
-    createBudgetItem(groupId, item): Promise<BudgetGroup[]> {
+    createBudgetItem(groupId, item): Promise<Budget> {
         var newUrl = this.url + '/items';
 
         item.budgetCategoryId = groupId;
@@ -65,12 +65,12 @@ export class BudgetGroupService {
         return this.http.post(newUrl, item)
             .toPromise()
             .then(response => {
-                return response.json() as BudgetGroup[]
+                return response.json() as Budget
          })
          .catch(this.handleError);
     }
 
-    editBudgetItem(groupId, item): Promise<BudgetGroup[]> {
+    editBudgetItem(groupId, item): Promise<Budget> {
         var newUrl = this.url + '/items/' + item.id;
 
         item.budgetCategoryId = groupId;
@@ -78,16 +78,16 @@ export class BudgetGroupService {
         return this.http.put(newUrl, item)
             .toPromise()
             .then(response => {
-                return response.json() as BudgetGroup[]
+                return response.json() as Budget
          })
          .catch(this.handleError);
     }
 
-    deleteBudgetItem(itemId): Promise<BudgetGroup[]> {
+    deleteBudgetItem(itemId): Promise<Budget> {
         return this.http.delete(this.url + '/items/' + itemId)
             .toPromise()
             .then(response => {
-                return response.json() as BudgetGroup[]
+                return response.json() as Budget
          })
          .catch(this.handleError);
     }

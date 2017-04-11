@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-import { BudgetGroup } from '../../models/budget-group';
+import { Budget } from '../../models/budget';
+import { BudgetCategory } from '../../models/budget-category';
 import { BudgetItem } from '../../models/budget-item';
-import { BudgetGroupService } from '../../services/budget-group.service';
+import { BudgetService } from '../../services/budget.service';
 
 import { Finances } from '../../models/finances';
 import { FinanceService } from '../../services/finances.service';
@@ -15,51 +16,50 @@ import { FinanceService } from '../../services/finances.service';
 })
 
 export class BudgetsComponent {
-    budget: BudgetGroup[];
+    budget: Budget = new Budget();
     finances: Finances = new Finances();
-    selectedGroupId: number;
+    selectedCategoryId: number;
 
-    constructor(private budgetGroupService: BudgetGroupService,
+    constructor(private budgetService: BudgetService,
                 private financeService: FinanceService) {}
 
     /* BEGIN BUDGET GROUPS */
 
-    @ViewChild('budgetGroupModal')
-    budgetGroupModal: ModalComponent;
-    budgetGroup: BudgetGroup = new BudgetGroup();
+    @ViewChild('budgetCategoryModal')
+    budgetCategoryModal: ModalComponent;
+    budgetCategory: BudgetCategory = new BudgetCategory();
 
-    setBudget(groups) {
-        console.log
-        this.budget = groups;
+    setBudget(budget) {
+        this.budget = budget;
     }
 
-    createNewBudgetGroup(): void {
-        this.budgetGroup = new BudgetGroup();
-        this.budgetGroupModal.open();
+    createNewBudgetCategory(): void {
+        this.budgetCategory = new BudgetCategory();
+        this.budgetCategoryModal.open();
     }
 
-    editBudgetGroup(groupId, group): void {
-        this.budgetGroup = group;
-        this.budgetGroupModal.open();
+    editBudgetCategory(groupId, group): void {
+        this.budgetCategory = group;
+        this.budgetCategoryModal.open();
     }
 
-    saveBudgetGroup(): void {
-        if (this.budgetGroup.id) {
-            this.budgetGroupService.updateBudgetGroup(this.budgetGroup)
-                .then(groups => { this.setBudget(groups) });
+    saveBudgetCategory(): void {
+        if (this.budgetCategory.id) {
+            this.budgetService.updateBudgetCategory(this.budgetCategory)
+                .then(budget => { this.setBudget(budget) });
         } else {
-            this.budgetGroupService.createBudgetGroup(this.budgetGroup)
-                .then(groups => { this.setBudget(groups) });
+            this.budgetService.createBudgetCategory(this.budgetCategory)
+                .then(budget => { this.setBudget(budget) });
         }
 
-        this.budgetGroupModal.close();
+        this.budgetCategoryModal.close();
     }
 
-    deleteBudgetGroup(): void {
-        this.budgetGroupService.deleteBudgetGroup(this.budgetGroup.id)
-            .then(groups => { this.setBudget(groups) });
+    deleteBudgetCategory(): void {
+        this.budgetService.deleteBudgetCategory(this.budgetCategory.id)
+            .then(budget => { this.setBudget(budget) });
 
-        this.budgetGroupModal.close();
+        this.budgetCategoryModal.close();
     }
 
     /* END BUDGET GROUPS */
@@ -72,31 +72,31 @@ export class BudgetsComponent {
 
     createNewBudgetItem(groupId) {
         this.budgetItem = new BudgetItem();
-        this.selectedGroupId = groupId;
+        this.selectedCategoryId = groupId;
         this.budgetItemModal.open();
     }
 
     editBudgetItem(groupId, item) {
-        this.selectedGroupId = groupId;
+        this.selectedCategoryId = groupId;
         this.budgetItem = item;
         this.budgetItemModal.open();
     }
 
     saveBudgetItem(): void {
         if (this.budgetItem.id) {
-            this.budgetGroupService.editBudgetItem(this.selectedGroupId, this.budgetItem)
-                .then(groups => { this.setBudget(groups) });
+            this.budgetService.editBudgetItem(this.selectedCategoryId, this.budgetItem)
+                .then(budget => { this.setBudget(budget) });
         } else {
-            this.budgetGroupService.createBudgetItem(this.selectedGroupId, this.budgetItem)
-                .then(groups => { this.setBudget(groups) });
+            this.budgetService.createBudgetItem(this.selectedCategoryId, this.budgetItem)
+                .then(budget => { this.setBudget(budget) });
         }
 
         this.budgetItemModal.close();
     }
 
     deleteBudgetItem(): void {
-        this.budgetGroupService.deleteBudgetItem(this.budgetItem.id)
-            .then(groups => { this.setBudget(groups) });
+        this.budgetService.deleteBudgetItem(this.budgetItem.id)
+            .then(budget => { this.setBudget(budget) });
 
         this.budgetItemModal.close();
     }
@@ -104,8 +104,8 @@ export class BudgetsComponent {
     /* END BUDGET ITEMS */
 
     ngOnInit() {
-        this.budgetGroupService.getBudgetGroups()
-            .then(groups => this.setBudget(groups));
+        this.budgetService.get()
+            .then(budget => this.setBudget(budget));
 
         this.financeService.get()
             .then(finances => this.finances = finances);

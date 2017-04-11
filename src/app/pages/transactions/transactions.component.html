@@ -72,8 +72,8 @@
             <div class="form-group">
                 <label for="transaction-category">Category</label>
                 <select id="transaction-category" name="transaction-category" required class="form-control" placeholder="Description of Transaction" [(ngModel)]="transaction.budgetItemId" (change)="fixBudgetItemId()">
-                    <optgroup *ngFor="let group of groups" [label]="group.name">
-                        <option *ngFor="let item of group.items" [value]="item.id">{{item.name}}</option>
+                    <optgroup *ngFor="let category of budget.categories" [label]="category.name">
+                        <option *ngFor="let item of category.items" [value]="item.id">{{item.name}}</option>
                     </optgroup>
                 </select>
             </div>

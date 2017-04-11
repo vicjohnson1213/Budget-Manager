@@ -23,7 +23,7 @@ import { TaxExemptionService } from './services/tax-exemption.service';
 import { TaxCreditService } from './services/tax-credit.service';
 import { TransactionService } from './services/transaction.service';
 
-import { BudgetGroupService } from './services/budget-group.service';
+import { BudgetService } from './services/budget.service';
 import { FinanceService } from './services/finances.service';
 
 import { routes } from './app.routes';
@@ -54,7 +54,7 @@ import { routes } from './app.routes';
         TaxDeductionService,
         TaxExemptionService,
         TaxCreditService,
-        BudgetGroupService,
+        BudgetService,
         FinanceService,
         TransactionService
     ],

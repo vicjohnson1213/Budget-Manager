@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
+import { Budget } from '../../models/budget';
 import { BudgetGroup } from '../../models/budget-group';
 import { BudgetItem } from '../../models/budget-item';
-import { BudgetGroupService } from '../../services/budget-group.service';
+import { BudgetService } from '../../services/budget.service';
 
 import { Transaction } from '../../models/transaction';
 import { TransactionService } from '../../services/transaction.service';
@@ -16,9 +17,9 @@ import { TransactionService } from '../../services/transaction.service';
 
 export class TransactionsComponent {
     transactions: Transaction[];
-    groups: BudgetGroup[];
+    budget: Budget = new Budget();
 
-    constructor(private budgetGroupService: BudgetGroupService,
+    constructor(private budgetService: BudgetService,
                 private transactionService: TransactionService) {}
 
     /* BEGIN BUDGET ITEMS */
@@ -34,7 +35,7 @@ export class TransactionsComponent {
     createTransaction() {
         this.transaction = new Transaction();
         this.transaction.date = new Date();
-        this.transaction.budgetItemId = this.groups[0].items[0].id;
+        this.transaction.budgetItemId = this.budget.categories[0].items[0].id;
         this.transactionModal.open();
     }
 
@@ -72,7 +73,7 @@ export class TransactionsComponent {
         this.transactionService.get()
             .then(transactions => this.setTransactions(transactions));
 
-        this.budgetGroupService.getBudgetGroups()
-            .then(groups => this.groups = groups)
+        this.budgetService.get()
+            .then(budget => this.budget = budget)
     }
 }
