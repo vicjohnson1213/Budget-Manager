@@ -21,7 +21,7 @@ export class TransactionsComponent {
     constructor(private budgetGroupService: BudgetGroupService,
                 private transactionService: TransactionService) {}
 
-        /* BEGIN BUDGET ITEMS */
+    /* BEGIN BUDGET ITEMS */
 
     @ViewChild('transactionModal')
     transactionModal: ModalComponent;
@@ -33,6 +33,8 @@ export class TransactionsComponent {
 
     createTransaction() {
         this.transaction = new Transaction();
+        this.transaction.date = new Date();
+        this.transaction.budgetItemId = this.groups[0].items[0].id;
         this.transactionModal.open();
     }
 
@@ -61,6 +63,10 @@ export class TransactionsComponent {
     }
 
     /* END BUDGET ITEMS */
+
+    fixBudgetItemId() {
+        this.transaction.budgetItemId = +this.transaction.budgetItemId;
+    }
     
     ngOnInit() {
         this.transactionService.get()

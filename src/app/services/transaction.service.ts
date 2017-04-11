@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -11,46 +11,48 @@ export class TransactionService {
 
     constructor(private http: Http) { }
 
+    private extractData(res: Response) {
+        var data = res.json() || [];
+
+        data.forEach((transaction) => {
+            transaction.date = new Date(transaction.date);
+        });
+
+        return data as Transaction[];
+    }
+
     get(): Promise<Transaction[]> {
         var newUrl = this.url + '/summary';
 
         return this.http.get(newUrl)
-         .toPromise()
-         .then(response => {
-             return response.json() as Transaction[]
-         })
-         .catch(this.handleError);
+            .map(this.extractData)
+            .toPromise()
+            .catch(this.handleError);
     }
 
     create(transaction): Promise<Transaction[]> {
         return this.http.post(this.url, transaction)
+            .map(this.extractData)
             .toPromise()
-            .then(response => {
-                return response.json() as Transaction[]
-            })
-         .catch(this.handleError);
+            .catch(this.handleError);
     }
 
     update(transaction): Promise<Transaction[]> {
         var newUrl = this.url + '/' + transaction.id;
 
         return this.http.put(newUrl, transaction)
+            .map(this.extractData)
             .toPromise()
-            .then(response => {
-                return response.json() as Transaction[]
-            })
-         .catch(this.handleError);
+            .catch(this.handleError);
     }
 
     delete(transactionId): Promise<Transaction[]> {
         var newUrl = this.url + '/' + transactionId;
 
         return this.http.delete(newUrl)
+            .map(this.extractData)
             .toPromise()
-            .then(response => {
-                return response.json() as Transaction[]
-            })
-         .catch(this.handleError);
+            .catch(this.handleError);
     }
 
     private handleError(error: any): Promise<any> {

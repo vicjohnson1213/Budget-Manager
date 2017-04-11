@@ -34,10 +34,10 @@
                                     {{item.name}}
                                 </div>
                                 <div class="col-xs-4 text-danger">
-                                    {{item.amount || 0 | currency:'USD':true:'1.0-0'}}
+                                    {{item.amount || 0 | currency:'USD':true:'1.0-2'}}
                                 </div>
                                 <div class="col-xs-4">
-                                    {{item.amount / (finances.estimatedNetIncome / 12) | percent:'1.0-2'}}
+                                    {{item.amount / (finances.estimatedNetIncome / 12) | percent:'1.0-0'}}
                                 </div>
                             </div>
                             <div class="row my-table-row text-center" (click)="createNewBudgetItem(group.id)">+</div>
@@ -101,6 +101,6 @@
     </modal-body>
     <modal-footer>
         <button *ngIf="budgetItem.id" type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteBudgetItem()">Delete</button>
-        <button type="button" class="btn btn-primary" (click)="savebudgetIItem()">Save</button>
+        <button type="button" class="btn btn-primary" (click)="saveBudgetItem()">Save</button>
     </modal-footer>
 </modal>

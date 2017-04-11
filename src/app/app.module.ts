@@ -7,6 +7,8 @@ import { HttpModule } from '@angular/http';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DatepickerModule } from 'ngx-bootstrap';
 
+import { UIDateSwitcherModule } from '../ui-components/ui-date-switcher';
+
 import { AppComponent } from './app.component';
 
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -41,10 +43,11 @@ import { routes } from './app.routes';
         FormsModule,
         HttpModule,
         Ng2Bs3ModalModule,
-        DatepickerModule.forRoot(),
         RouterModule.forRoot(routes, {
             useHash: true
-        })
+        }),
+
+        UIDateSwitcherModule
     ],
     providers: [
         IncomeSourceService,

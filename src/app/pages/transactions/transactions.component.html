@@ -22,10 +22,11 @@
                                 <div class="col-xs-3">
                                     <p>Sub-Category</p>
                                 </div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-1 text-right">
                                     <p>Amount</p>
                                 </div>
                             </div>
+
 
                             <div class="row my-table-row" *ngFor="let transaction of transactions" (click)="editTransaction(transaction)">
                                 <div class="col-xs-2">
@@ -40,10 +41,12 @@
                                 <div class="col-xs-3">
                                     {{transaction.budgetItemName}}
                                 </div>
-                                <div class="col-xs-1">
-                                    {{transaction.amount}}
+                                <div class="col-xs-1 text-right">
+                                    {{transaction.amount || 0 | currency:'USD':true:'1.0-2'}}
                                 </div>
                             </div>
+
+                            <div class="row my-table-row text-center" (click)="createTransaction()">+</div>
                         </div>
                     </div>
                 </div>
@@ -60,15 +63,15 @@
         <form #modalForm="ngForm">
             <div class="form-group">
                 <label for="transaction-date">Date</label>
-                <input id="transaction-date" name="transaction-date" autofocus required [(ngModel)]="transaction.date" type="text" class="form-control" placeholder="Date of Transaction">
+                <ui-date-switcher id="transaction-date" name="transaction-date" [(ngModel)]="transaction.date"></ui-date-switcher>
             </div>
             <div class="form-group">
                 <label for="transaction-description">Description</label>
-                <input id="transaction-description" name="transaction-description" required [(ngModel)]="transaction.name" type="text" class="form-control" placeholder="Description of Transaction">
+                <input id="transaction-description" name="transaction-description" required autofocus [(ngModel)]="transaction.name" type="text" class="form-control" placeholder="Description of Transaction">
             </div>
             <div class="form-group">
                 <label for="transaction-category">Category</label>
-                <select id="transaction-category" name="transaction-category" required [(ngModel)]="transaction.budgetItemId" class="form-control" placeholder="Description of Transaction">
+                <select id="transaction-category" name="transaction-category" required class="form-control" placeholder="Description of Transaction" [(ngModel)]="transaction.budgetItemId" (change)="fixBudgetItemId()">
                     <optgroup *ngFor="let group of groups" [label]="group.name">
                         <option *ngFor="let item of group.items" [value]="item.id">{{item.name}}</option>
                     </optgroup>

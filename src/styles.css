@@ -1,5 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* BEGIN COLORS */
+
+/* Light Blue: #28c2ff; */
+/* Light Blue Darker: #009ddb */
+
+/* END COLORS */
+
 body {
     background-color: #eee;
     font-family: 'Open Sans', sans-serif;
@@ -30,6 +37,8 @@ h1, h2, h3 {
 ul {
     list-style-type: none;
 }
+
+/* BEGIN MY TABLE */
 
 .my-table {
 
@@ -81,6 +90,35 @@ ul {
     margin: 0;
 }
 
+/* END MY TABLE */
+
+
+/* BEGIN DATE SWITCHER */
+
+.ui-date-switcher-left,
+.ui-date-switcher-right {
+    width: 20px;
+    height: 30px;
+    
+}
+
+.ui-date-switcher-left polyline,
+.ui-date-switcher-right polyline {
+    stroke: #28c2ff;
+    stroke-width: 5px;
+}
+
+.ui-date-switcher-left:hover polyline,
+.ui-date-switcher-right:hover polyline {
+    stroke: #009ddb;
+}
+
+.ui-date-switcher-text {
+    width: 200px;
+    font-size: 18px;
+}
+
+/* END DATE SWITCHER */
 
 /* BOOSTRAP OVERRIDES */
 
