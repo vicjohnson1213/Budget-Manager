@@ -35,14 +35,26 @@
                     <h3 class="panel-title">Sources of Income</h3>
                 </div>
                 <div class="panel-body panel-table">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr *ngFor="let source of finances.incomeSources" (click)="editIncomeSource(source)">
-                                <td>{{source.name}}</td>
-                                <td>{{source.annualAmount || 0 | currency:'USD':true:'1.0-0'}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="my-table">
+                        <div class="my-table-group">
+                            <div class="row my-table-header">
+                                <div class="col-xs-6">
+                                    <p>Income Source</p>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p>Annual Amount</p>
+                                </div>
+                            </div>
+                            <div class="row my-table-row" *ngFor="let source of finances.incomeSources" (click)="editIncomeSource(source)">
+                                <div class="col-xs-6">
+                                    {{source.name}}
+                                </div>
+                                <div class="col-xs-6">
+                                    {{source.annualAmount || 0 | currency:'USD':true:'1.0-0'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="text-right">
@@ -61,14 +73,26 @@
                     <h3 class="panel-title">Tax Deductions</h3>
                 </div>
                 <div class="panel-body panel-table">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr *ngFor="let deduction of finances.taxDeductions" (click)="editTaxDeduction(deduction)">
-                                <td>{{deduction.name}}</td>
-                                <td>{{deduction.amount || 0 | currency:'USD':true:'1.0-0'}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="my-table">
+                        <div class="my-table-group">
+                            <div class="row my-table-header">
+                                <div class="col-xs-6">
+                                    <p>Tax Deduction</p>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p>Amount</p>
+                                </div>
+                            </div>
+                            <div class="row my-table-row" *ngFor="let deduction of finances.taxDeductions" (click)="editTaxDeduction(deduction)">
+                                <div class="col-xs-6">
+                                    {{deduction.name}}
+                                </div>
+                                <div class="col-xs-6">
+                                    {{deduction.amount || 0 | currency:'USD':true:'1.0-0'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="text-right">
@@ -84,14 +108,26 @@
                     <h3 class="panel-title">Tax Exemptions</h3>
                 </div>
                 <div class="panel-body panel-table">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr *ngFor="let exemption of finances.taxExemptions" (click)="editTaxExemption(exemption)">
-                                <td>{{exemption.name}}</td>
-                                <td>{{exemption.amount || 0 | currency:'USD':true:'1.0-0'}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="my-table">
+                        <div class="my-table-group">
+                            <div class="row my-table-header">
+                                <div class="col-xs-6">
+                                    <p>Tax Exemption</p>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p>Amount</p>
+                                </div>
+                            </div>
+                            <div class="row my-table-row" *ngFor="let exemption of finances.taxExemptions" (click)="editTaxExemption(exemption)">
+                                <div class="col-xs-6">
+                                    {{exemption.name}}
+                                </div>
+                                <div class="col-xs-6">
+                                    {{exemption.amount || 0 | currency:'USD':true:'1.0-0'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="text-right">
@@ -107,14 +143,26 @@
                     <h3 class="panel-title">Tax Credits</h3>
                 </div>
                 <div class="panel-body panel-table">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr *ngFor="let credit of finances.taxCredits" (click)="editTaxCredit(credit)">
-                                <td>{{credit.name}}</td>
-                                <td>{{credit.amount || 0 | currency:'USD':true:'1.0-0'}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="my-table">
+                        <div class="my-table-group">
+                            <div class="row my-table-header">
+                                <div class="col-xs-6">
+                                    <p>Tax Credit</p>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p>Amount</p>
+                                </div>
+                            </div>
+                            <div class="row my-table-row" *ngFor="let credit of finances.taxCredits" (click)="editTaxCredit(credit)">
+                                <div class="col-xs-6">
+                                    {{credit.name}}
+                                </div>
+                                <div class="col-xs-6">
+                                    {{credit.amount || 0 | currency:'USD':true:'1.0-0'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="text-right">
