@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DatepickerModule } from 'ngx-bootstrap';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { UIDateSwitcherModule } from '../ui-components/ui-date-switcher';
 
@@ -42,10 +43,13 @@ import { routes } from './app.routes';
         BrowserModule,
         FormsModule,
         HttpModule,
-        Ng2Bs3ModalModule,
+
         RouterModule.forRoot(routes, {
             useHash: true
         }),
+
+        Ng2Bs3ModalModule,
+        ChartsModule,
 
         UIDateSwitcherModule
     ],

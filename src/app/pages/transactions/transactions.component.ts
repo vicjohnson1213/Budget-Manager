@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { Budget } from '../../models/budget';
-import { BudgetGroup } from '../../models/budget-group';
+import { BudgetCategory } from '../../models/budget-category';
 import { BudgetItem } from '../../models/budget-item';
 import { BudgetService } from '../../services/budget.service';
 

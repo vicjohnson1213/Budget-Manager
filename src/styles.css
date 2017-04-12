@@ -50,7 +50,7 @@ ul {
 }
 
 .my-table-group-title {
-    padding: 5px 10px;
+    padding: 5px;
     margin-left: 0;
     margin-right: 0;
 }
@@ -67,7 +67,7 @@ ul {
 
 .row.my-table-row {
     background-color: #eee;
-    padding: 10px;
+    padding: 5px;
     margin-left: 0;
     margin-right: 0;
     margin-top: 5px;
@@ -79,7 +79,7 @@ ul {
 }
 
 .row.my-table-header {
-    padding: 0 10px;
+    padding: 0 5px;
     margin-top: 5px;
     margin-left: 0;
     margin-right: 0;
@@ -119,6 +119,30 @@ ul {
 }
 
 /* END DATE SWITCHER */
+
+.chart {
+    position: relative;
+    text-align: center;
+}
+
+.chart + .chart {
+    margin-top: 20px;
+}
+
+.chart .doughnut-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.chart .doughnut-label p {
+    margin: 0;
+}
+
+.chart .doughnut-label h1 {
+    margin: 0;
+}
 
 /* BOOSTRAP OVERRIDES */
 

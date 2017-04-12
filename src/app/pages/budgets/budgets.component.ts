@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BaseChartDirective } from 'ng2-charts/ng2-charts';
+
+import { ChartColors } from '../../consts';
 
 import { Budget } from '../../models/budget';
 import { BudgetCategory } from '../../models/budget-category';
@@ -20,6 +23,58 @@ export class BudgetsComponent {
     finances: Finances = new Finances();
     selectedCategoryId: number;
 
+    budgetedChart = {
+        type: 'doughnut',
+        labels: ['Budgeted', 'Remaining'],
+        data: [0, 1],
+        colors: [{
+            backgroundColor: ['#28c2ff', '#eeeeee']
+        }],
+        options: {
+            cutoutPercentage: 70,
+            animation: {
+                animateRotate: false,
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var label = data.labels[tooltipItem.index];
+                        var amount = data.datasets[0].data[tooltipItem.index]
+                        return label + ': $' + amount;
+                    }
+                }
+            }
+        }
+    };
+
+    breakdownChartData = {
+        type: 'doughnut',
+        labels: [],
+        data: [],
+        colors: [{
+            backgroundColor: ChartColors
+        }],
+        options: {
+            cutoutPercentage: 70,
+            animation: {
+                animateRotate: false
+            },
+            tooltips: {
+                callbacks: {
+                    label: (tooltipItem, data) => {
+                        var label = data.labels[tooltipItem.index]
+                        var amount = data.datasets[0].data[tooltipItem.index]
+                        var percent = Math.floor((amount / (this.finances.estimatedNetIncome / 12)) * 100);
+
+                        return label + ': $' + amount + ' - ' + percent + '%';
+                    }
+                }
+            }
+        }
+    };
+
+    /* END CHART */
+
     constructor(private budgetService: BudgetService,
                 private financeService: FinanceService) {}
 
@@ -29,8 +84,36 @@ export class BudgetsComponent {
     budgetCategoryModal: ModalComponent;
     budgetCategory: BudgetCategory = new BudgetCategory();
 
+    buildCharts() {
+        var leftover = (Math.floor(this.finances.estimatedNetIncome / 12)) - this.budget.total;
+
+        this.budgetedChart.data = [this.budget.total, leftover];
+
+        this.breakdownChartData.labels = this.budget.categories.map(category => category.name);
+        this.breakdownChartData.data = this.budget.categories.map(category => category.total);
+
+        var colors = ChartColors.slice(0, this.breakdownChartData.data.length);
+        colors.push('#eeeeee');
+
+        this.breakdownChartData.labels.push('Remaining')
+        this.breakdownChartData.data.push(leftover);
+
+
+        this.breakdownChartData.colors = [{
+            backgroundColor: colors
+        }];
+    }
+
     setBudget(budget) {
         this.budget = budget;
+
+        this.buildCharts();
+    }
+
+    setFinances(finances) {
+        this.finances = finances;
+
+        this.buildCharts();
     }
 
     createNewBudgetCategory(): void {
@@ -108,6 +191,6 @@ export class BudgetsComponent {
             .then(budget => this.setBudget(budget));
 
         this.financeService.get()
-            .then(finances => this.finances = finances);
+            .then(finances => this.setFinances(finances));
     }
 }

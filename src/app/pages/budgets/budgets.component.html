@@ -1,7 +1,7 @@
 <div class="page-header"><h1>Your Monthly Budget</h1></div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Budget Categories</h3>
@@ -18,26 +18,32 @@
                             </div>
 
                             <div class="row my-table-header">
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <p>Category</p>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <p>Amount Budgeted</p>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <p>Percent of Income</p>
+                                </div>
+                                <div class="col-xs-3">
+                                    <p>Annual Total</p>
                                 </div>
                             </div>
 
                             <div class="row my-table-row" *ngFor="let item of category.items" (click)="editBudgetItem(category.id, item)">
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     {{item.name}}
                                 </div>
-                                <div class="col-xs-4 text-danger">
+                                <div class="col-xs-3 text-danger">
                                     {{item.amount || 0 | currency:'USD':true:'1.0-2'}}
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     {{item.amount / (finances.estimatedNetIncome / 12) | percent:'1.0-1'}}
+                                </div>
+                                <div class="col-xs-3">
+                                    {{(item.amount || 0) * 12 | currency:'USD':true:'1.0-2'}}
                                 </div>
                             </div>
                             <div class="row my-table-row text-center" (click)="createNewBudgetItem(category.id)">+</div>
@@ -57,7 +63,42 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <h3 class="panel-title">Summary</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="chart">
+                        <div class="doughnut-label">
+                            <p class="small">Total Budgeted</p>
+                            <h1>{{budget.total | currency:'USD':true:'1.0-2'}}</h1>
+                        </div>
+                        <canvas baseChart
+                            [chartType]="budgetedChart.type"
+                            [colors]="budgetedChart.colors"
+                            [labels]="budgetedChart.labels"
+                            [data]="budgetedChart.data"
+                            [options]="budgetedChart.options"
+                            [legend]="false">
+                        </canvas>
+                    </div>
+                    <div class="chart">
+                        <div class="doughnut-label">
+                            <p class="small">Budget Breakdown</p>
+                            <!-- <h1>{{budget.total | currency:'USD':true:'1.0-2'}}</h1> -->
+                        </div>
+                        <canvas baseChart #breakdownChart
+                            [chartType]="breakdownChartData.type"
+                            [colors]="breakdownChartData.colors"
+                            [labels]="breakdownChartData.labels"
+                            [data]="breakdownChartData.data"
+                            [options]="breakdownChartData.options"
+                            [legend]="false">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
