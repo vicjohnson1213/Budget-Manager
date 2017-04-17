@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Transaction } from '../models/transaction';
+import { TransactionSummary } from '../models/transaction-summary';
 
 @Injectable()
 export class TransactionService {
@@ -14,30 +14,28 @@ export class TransactionService {
     private extractData(res: Response) {
         var data = res.json() || [];
 
-        data.forEach((transaction) => {
+        data.transactions.forEach((transaction) => {
             transaction.date = new Date(transaction.date);
         });
 
-        return data as Transaction[];
+        return data as TransactionSummary;
     }
 
-    get(): Promise<Transaction[]> {
-        var newUrl = this.url + '/summary';
-
-        return this.http.get(newUrl)
+    get(): Promise<TransactionSummary> {
+        return this.http.get(this.url)
             .map(this.extractData)
             .toPromise()
             .catch(this.handleError);
     }
 
-    create(transaction): Promise<Transaction[]> {
+    create(transaction): Promise<TransactionSummary> {
         return this.http.post(this.url, transaction)
             .map(this.extractData)
             .toPromise()
             .catch(this.handleError);
     }
 
-    update(transaction): Promise<Transaction[]> {
+    update(transaction): Promise<TransactionSummary> {
         var newUrl = this.url + '/' + transaction.id;
 
         return this.http.put(newUrl, transaction)
@@ -46,7 +44,7 @@ export class TransactionService {
             .catch(this.handleError);
     }
 
-    delete(transactionId): Promise<Transaction[]> {
+    delete(transactionId): Promise<TransactionSummary> {
         var newUrl = this.url + '/' + transactionId;
 
         return this.http.delete(newUrl)

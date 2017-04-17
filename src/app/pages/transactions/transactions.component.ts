@@ -8,6 +8,7 @@ import { BudgetItem } from '../../models/budget-item';
 import { BudgetService } from '../../services/budget.service';
 
 import { Transaction } from '../../models/transaction';
+import { TransactionSummary } from '../../models/transaction-summary';
 import { TransactionService } from '../../services/transaction.service';
 
 @Component({
@@ -16,7 +17,7 @@ import { TransactionService } from '../../services/transaction.service';
 })
 
 export class TransactionsComponent {
-    transactions: Transaction[];
+    transactionSummary: TransactionSummary = new TransactionSummary();
     budget: Budget = new Budget();
 
     constructor(private budgetService: BudgetService,
@@ -28,8 +29,8 @@ export class TransactionsComponent {
     transactionModal: ModalComponent;
     transaction: Transaction = new Transaction();
 
-    setTransactions(transactions) {
-        this.transactions = transactions;
+    setSummary(summary) {
+        this.transactionSummary = summary;
     }
 
     createTransaction() {
@@ -47,10 +48,10 @@ export class TransactionsComponent {
     saveTransaction(): void {
         if (this.transaction.id) {
             this.transactionService.update(this.transaction)
-                .then(transactions => { this.setTransactions(transactions) });
+                .then(summary => { this.setSummary(summary) });
         } else {
             this.transactionService.create(this.transaction)
-                .then(transactions => { this.setTransactions(transactions) });
+                .then(summary => { this.setSummary(summary) });
         }
 
         this.transactionModal.close();
@@ -58,7 +59,7 @@ export class TransactionsComponent {
 
     deleteTransaction(): void {
         this.transactionService.delete(this.transaction.id)
-            .then(transactions => { this.setTransactions(transactions) });
+            .then(summary => { this.setSummary(summary) });
 
         this.transactionModal.close();
     }
@@ -71,7 +72,7 @@ export class TransactionsComponent {
     
     ngOnInit() {
         this.transactionService.get()
-            .then(transactions => this.setTransactions(transactions));
+            .then(summary => this.setSummary(summary));
 
         this.budgetService.get()
             .then(budget => this.budget = budget)

@@ -28,7 +28,7 @@
                             </div>
 
 
-                            <div class="row my-table-row" *ngFor="let transaction of transactions" (click)="editTransaction(transaction)">
+                            <div class="row my-table-row" *ngFor="let transaction of transactionSummary.transactions" (click)="editTransaction(transaction)">
                                 <div class="col-xs-2">
                                     {{transaction.date | date:'mediumDate'}}
                                 </div>

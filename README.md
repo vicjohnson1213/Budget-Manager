@@ -1,10 +1,8 @@
 # Budget Manager
 
-## Ideas
+## Overview Statistics
 
-- Have the page gather the information and give it to each partial to display it and update it as appropriate.
-
-## Questions
-
-- Should there be charts on every page or just the dashboard?
-    - If there are charts on every page what can the dashboard show that is different?
+- Spent so far this month.
+- What categories money is being spent on.
+    - Click to show subcategory breakdown.
+- How much money is being spent each day.

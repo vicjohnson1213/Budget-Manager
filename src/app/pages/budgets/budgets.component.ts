@@ -64,7 +64,7 @@ export class BudgetsComponent {
                     label: (tooltipItem, data) => {
                         var label = data.labels[tooltipItem.index]
                         var amount = data.datasets[0].data[tooltipItem.index]
-                        var percent = Math.floor((amount / (this.finances.estimatedNetIncome / 12)) * 100);
+                        var percent = Math.round((amount / (this.finances.estimatedNetIncome / 12)) * 100);
 
                         return label + ': $' + amount + ' - ' + percent + '%';
                     }

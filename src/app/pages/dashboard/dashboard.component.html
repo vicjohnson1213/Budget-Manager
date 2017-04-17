@@ -2,7 +2,71 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <h1>Hello World</h1>
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <p>Net Monthly Income</p>
+                            <h1>{{(finances.estimatedNetIncome || 0) / 12 | currency:'USD':true:'1.0-0'}}</h1>
+                        </div>
+                        <div class="col-xs-3">
+                            <p>Budgeted</p>
+                            <h1>{{budget.total || 0 | currency:'USD':true:'1.0-0'}}</h1>
+                        </div>
+                        <div class="col-xs-3">
+                            <p>Spent</p>
+                            <h1>{{transactionSummary.total || 0 | currency:'USD':true:'1.0-0'}}</h1>
+                        </div>
+                        <div class="col-xs-3">
+                            <p>Remaining this Month</p>
+                            <h1>{{budget.total - transactionSummary.total || 0 | currency:'USD':true:'1.0-0'}}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Your Spending</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="chart">
+                                <div class="doughnut-label">
+                                    <p class="small">Spending<br>vs.<br>Budget</p>
+                                </div>
+                                <canvas baseChart
+                                    [chartType]="overallSpendingChart.type"
+                                    [colors]="overallSpendingChart.colors"
+                                    [labels]="overallSpendingChart.labels"
+                                    [data]="overallSpendingChart.data"
+                                    [options]="overallSpendingChart.options"
+                                    [legend]="false">
+                                </canvas>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="chart">
+                                <div class="doughnut-label">
+                                    <p class="small">Spending<br>vs.<br>Budget</p>
+                                </div>
+                                <canvas baseChart
+                                    [chartType]="spendingBreakdownChart.type"
+                                    [colors]="spendingBreakdownChart.colors"
+                                    [labels]="spendingBreakdownChart.labels"
+                                    [data]="spendingBreakdownChart.data"
+                                    [options]="spendingBreakdownChart.options"
+                                    [legend]="false">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
