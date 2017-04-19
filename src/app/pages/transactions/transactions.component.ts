@@ -74,7 +74,7 @@ export class TransactionsComponent {
         this.transactionService.get()
             .then(summary => this.setSummary(summary));
 
-        // this.budgetService.get()
-        //     .then(budget => this.budget = budget)
+        this.budgetService.get()
+            .then(budget => this.budget = budget)
     }
 }
