@@ -5,14 +5,19 @@ import 'rxjs/add/operator/toPromise';
 
 import { TaxExemption } from '../models/tax-exemption';
 
+import { AuthService } from './auth.service';
+
 @Injectable()
 export class TaxExemptionService {
     private url = '/api/v1/finances/taxExemptions';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http,
+                private authService: AuthService) { }
 
     getTaxExemptions(): Promise<TaxExemption[]> {
-        return this.http.get(this.url)
+        return this.http.get(this.url, {
+            headers: this.authService.createAuthHeaders()
+        })
          .toPromise()
          .then(response => {
              return response.json() as TaxExemption[]
@@ -21,7 +26,9 @@ export class TaxExemptionService {
     }
 
     create(exemption): Promise<TaxExemption[]> {
-        return this.http.post(this.url, exemption)
+        return this.http.post(this.url, exemption, {
+            headers: this.authService.createAuthHeaders()
+        })
             .toPromise()
             .then(response => {
                 return response.json() as TaxExemption[]
@@ -32,7 +39,9 @@ export class TaxExemptionService {
     update(exemption): Promise<TaxExemption[]> {
         var newUrl = this.url + '/' + exemption.id;
 
-        return this.http.put(newUrl, exemption)
+        return this.http.put(newUrl, exemption, {
+            headers: this.authService.createAuthHeaders()
+        })
             .toPromise()
             .then(response => {
                 return response.json() as TaxExemption[]
@@ -43,7 +52,9 @@ export class TaxExemptionService {
     delete(exemptionId): Promise<TaxExemption[]> {
         var newUrl = this.url + '/' + exemptionId;
 
-        return this.http.delete(newUrl)
+        return this.http.delete(newUrl, {
+            headers: this.authService.createAuthHeaders()
+        })
             .toPromise()
             .then(response => {
                 return response.json() as TaxExemption[]

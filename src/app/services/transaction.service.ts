@@ -5,11 +5,14 @@ import 'rxjs/add/operator/toPromise';
 
 import { TransactionSummary } from '../models/transaction-summary';
 
+import { AuthService } from './auth.service';
+
 @Injectable()
 export class TransactionService {
     private url = '/api/v1/transactions';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http,
+                private authService: AuthService) { }
 
     private extractData(res: Response) {
         var data = res.json() || [];
@@ -22,14 +25,18 @@ export class TransactionService {
     }
 
     get(): Promise<TransactionSummary> {
-        return this.http.get(this.url)
+        return this.http.get(this.url, {
+            headers: this.authService.createAuthHeaders()
+        })
             .map(this.extractData)
             .toPromise()
             .catch(this.handleError);
     }
 
     create(transaction): Promise<TransactionSummary> {
-        return this.http.post(this.url, transaction)
+        return this.http.post(this.url, transaction, {
+            headers: this.authService.createAuthHeaders()
+        })
             .map(this.extractData)
             .toPromise()
             .catch(this.handleError);
@@ -38,7 +45,9 @@ export class TransactionService {
     update(transaction): Promise<TransactionSummary> {
         var newUrl = this.url + '/' + transaction.id;
 
-        return this.http.put(newUrl, transaction)
+        return this.http.put(newUrl, transaction, {
+            headers: this.authService.createAuthHeaders()
+        })
             .map(this.extractData)
             .toPromise()
             .catch(this.handleError);
@@ -47,7 +56,9 @@ export class TransactionService {
     delete(transactionId): Promise<TransactionSummary> {
         var newUrl = this.url + '/' + transactionId;
 
-        return this.http.delete(newUrl)
+        return this.http.delete(newUrl, {
+            headers: this.authService.createAuthHeaders()
+        })
             .map(this.extractData)
             .toPromise()
             .catch(this.handleError);

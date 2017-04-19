@@ -13,6 +13,9 @@
                 <a [routerLink]="['/your-finances']" [routerLinkActive]="['active']">Your Finances</a>
                 <a [routerLink]="['/history']" [routerLinkActive]="['active']">History</a>
             </li>
+            <li class="sidebar-bottom">
+                <a [routerLink]="['/login']" (click)="logout()">Logout</a>
+            </li>
         </ul>
     </div>
     <div id="page-content-wrapper">

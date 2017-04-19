@@ -7,6 +7,8 @@ import { TaxDeductionService } from './tax-deduction.service';
 import { TaxExemptionService } from './tax-exemption.service';
 import { TaxCreditService } from './tax-credit.service';
 
+import { AuthService } from './auth.service';
+
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -17,10 +19,13 @@ export class FinanceService {
                 public incomeSources: IncomeSourceService,
                 public taxDeductions: TaxDeductionService,
                 public taxExemptions: TaxExemptionService,
-                public taxCredits: TaxCreditService) {}
+                public taxCredits: TaxCreditService,
+                private authService: AuthService) {}
 
     get(): Promise<Finances> {
-        return this.http.get(this.url)
+        return this.http.get(this.url, {
+            headers: this.authService.createAuthHeaders()
+        })
          .toPromise()
          .then(response => {
              return response.json() as Finances;

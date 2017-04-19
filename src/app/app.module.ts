@@ -12,6 +12,7 @@ import { UIDateSwitcherModule } from '../ui-components/ui-date-switcher';
 
 import { AppComponent } from './app.component';
 
+import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { BudgetsComponent } from './pages/budgets/budgets.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
@@ -27,12 +28,16 @@ import { TransactionService } from './services/transaction.service';
 import { BudgetService } from './services/budget.service';
 import { FinanceService } from './services/finances.service';
 
+import { AuthGuard } from './guards/auth.guard';
+import { AuthService } from './services/auth.service';
+
 import { routes } from './app.routes';
 
 @NgModule({
     declarations: [
         AppComponent,
 
+        LoginComponent,
         DashboardComponent,
         BudgetsComponent,
         TransactionsComponent,
@@ -60,7 +65,10 @@ import { routes } from './app.routes';
         TaxCreditService,
         BudgetService,
         FinanceService,
-        TransactionService
+        TransactionService,
+        
+        AuthGuard,
+        AuthService
     ],
     bootstrap: [AppComponent]
 })

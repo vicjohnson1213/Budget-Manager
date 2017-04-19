@@ -5,14 +5,19 @@ import 'rxjs/add/operator/toPromise';
 
 import { TaxDeduction } from '../models/tax-deduction';
 
+import { AuthService } from './auth.service';
+
 @Injectable()
 export class TaxDeductionService {
     private url = '/api/v1/finances/taxDeductions';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http,
+                private authService: AuthService) { }
 
     getTaxDeductions(): Promise<TaxDeduction[]> {
-        return this.http.get(this.url)
+        return this.http.get(this.url, {
+            headers: this.authService.createAuthHeaders()
+        })
          .toPromise()
          .then(response => {
              return response.json() as TaxDeduction[]
@@ -21,7 +26,9 @@ export class TaxDeductionService {
     }
 
     create(deduction): Promise<TaxDeduction[]> {
-        return this.http.post(this.url, deduction)
+        return this.http.post(this.url, deduction, {
+            headers: this.authService.createAuthHeaders()
+        })
             .toPromise()
             .then(response => {
                 return response.json() as TaxDeduction[]
@@ -32,7 +39,9 @@ export class TaxDeductionService {
     update(deduction): Promise<TaxDeduction[]> {
         var newUrl = this.url + '/' + deduction.id;
 
-        return this.http.put(newUrl, deduction)
+        return this.http.put(newUrl, deduction, {
+            headers: this.authService.createAuthHeaders()
+        })
             .toPromise()
             .then(response => {
                 return response.json() as TaxDeduction[]
@@ -43,7 +52,9 @@ export class TaxDeductionService {
     delete(deductionId): Promise<TaxDeduction[]> {
         var newUrl = this.url + '/' + deductionId;
 
-        return this.http.delete(newUrl)
+        return this.http.delete(newUrl, {
+            headers: this.authService.createAuthHeaders()
+        })
             .toPromise()
             .then(response => {
                 return response.json() as TaxDeduction[]
