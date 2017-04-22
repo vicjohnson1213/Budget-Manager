@@ -1,7 +1,6 @@
 var path = require('path'),
     request = require('request'),
     express = require('express'),
-    session = require('express-session'),
     proxy = require('http-proxy-middleware'),
     app = express();
 
