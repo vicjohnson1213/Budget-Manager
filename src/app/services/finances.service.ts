@@ -7,7 +7,7 @@ import { TaxDeductionService } from './tax-deduction.service';
 import { TaxExemptionService } from './tax-exemption.service';
 import { TaxCreditService } from './tax-credit.service';
 
-import { AuthService } from './auth.service';
+import { HttpService } from '../shared/http.service';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -15,22 +15,19 @@ import 'rxjs/add/operator/toPromise';
 export class FinanceService {
     private url = '/api/v1/finances';
 
-    constructor(private http: Http,
+    constructor(private http: HttpService,
                 public incomeSources: IncomeSourceService,
                 public taxDeductions: TaxDeductionService,
                 public taxExemptions: TaxExemptionService,
-                public taxCredits: TaxCreditService,
-                private authService: AuthService) {}
+                public taxCredits: TaxCreditService) {}
 
     get(): Promise<Finances> {
-        return this.http.get(this.url, {
-            headers: this.authService.createAuthHeaders()
-        })
-         .toPromise()
-         .then(response => {
-             return response.json() as Finances;
-         })
-         .catch(this.handleError);
+        return this.http.get(this.url)
+            .toPromise()
+            .then(response => {
+                return response.json() as Finances;
+            })
+            .catch(this.handleError);
     }
 
     private handleError(error: any): Promise<any> {

@@ -1,24 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Headers } from '@angular/http';
 
+import 'rxjs/add/operator/toPromise';
+
+import { HttpService } from '../shared/http.service';
+
+import { Tokens } from '../models/tokens';
 import { User } from '../models/user';
 
 @Injectable()
 export class AuthService {
-    constructor() { }
+    private url = '/api/v1/auth';
 
-    createAuthHeaders() {
-        var user = JSON.parse(localStorage.getItem('user'));
-        var headers = new Headers();
-        headers.append('Authorization', 'Basic ' + btoa(user.email + ':' + user.password));
-        return headers;
+    constructor(private httpService: HttpService) { }
+
+    login(user: User): Promise<void> {
+        var newUrl = this.url + '/login';
+
+        return this.httpService.request(newUrl, {
+            method: 'post',
+            body: user
+        }).toPromise().then(res => {
+            var tokens = res.json() as Tokens;
+            localStorage.setItem('accessToken', tokens.accessToken);
+        });
     }
 
-    login(user: User) {
-        localStorage.setItem('user', JSON.stringify(user));
-    }
-
-    logout() {
-        localStorage.removeItem('user');
+    logout(): Promise<void> {
+        var newUrl = this.url + '/logout';
+        
+        return this.httpService.post(newUrl, {
+            accessToken: localStorage.getItem('accessToken')
+        }).toPromise();
     }
 }

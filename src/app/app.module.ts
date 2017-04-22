@@ -8,7 +8,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DatepickerModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
-import { UIDateSwitcherModule } from '../ui-components/ui-date-switcher';
+import { UIDateSwitcherModule } from './shared/ui-date-switcher';
 
 import { AppComponent } from './app.component';
 
@@ -30,6 +30,8 @@ import { FinanceService } from './services/finances.service';
 
 import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from './services/auth.service';
+
+import { HttpService } from './shared/http.service';
 
 import { routes } from './app.routes';
 
@@ -68,7 +70,8 @@ import { routes } from './app.routes';
         TransactionService,
         
         AuthGuard,
-        AuthService
+        AuthService,
+        HttpService
     ],
     bootstrap: [AppComponent]
 })

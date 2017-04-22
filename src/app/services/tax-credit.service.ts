@@ -5,30 +5,25 @@ import 'rxjs/add/operator/toPromise';
 
 import { TaxCredit } from '../models/tax-credit';
 
-import { AuthService } from './auth.service';
+import { HttpService } from '../shared/http.service';
 
 @Injectable()
 export class TaxCreditService {
     private url = '/api/v1/finances/taxCredits';
 
-    constructor(private http: Http,
-                private authService: AuthService) { }
+    constructor(private http: HttpService) { }
 
     getTaxCredits(): Promise<TaxCredit[]> {
-        return this.http.get(this.url, {
-            headers: this.authService.createAuthHeaders()
-        })
-         .toPromise()
-         .then(response => {
-             return response.json() as TaxCredit[]
-         })
-         .catch(this.handleError);
+        return this.http.get(this.url)
+            .toPromise()
+            .then(response => {
+                return response.json() as TaxCredit[]
+            })
+            .catch(this.handleError);
     }
 
     create(credit): Promise<TaxCredit[]> {
-        return this.http.post(this.url, credit, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.post(this.url, credit)
             .toPromise()
             .then(response => {
                 return response.json() as TaxCredit[]
@@ -39,9 +34,7 @@ export class TaxCreditService {
     update(credit): Promise<TaxCredit[]> {
         var newUrl = this.url + '/' + credit.id;
 
-        return this.http.put(newUrl, credit, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.put(newUrl, credit)
             .toPromise()
             .then(response => {
                 return response.json() as TaxCredit[]
@@ -52,9 +45,7 @@ export class TaxCreditService {
     delete(creditId): Promise<TaxCredit[]> {
         var newUrl = this.url + '/' + creditId;
 
-        return this.http.delete(newUrl, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.delete(newUrl)
             .toPromise()
             .then(response => {
                 return response.json() as TaxCredit[]

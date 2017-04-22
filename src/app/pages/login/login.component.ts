@@ -20,8 +20,10 @@ export class LoginComponent {
                 private authService: AuthService) {}
 
     login() {
-        this.authService.login(this.user);
-        this.router.navigate([this.returnURL])
+        this.authService.login(this.user)
+            .then(() => {
+                this.router.navigate([this.returnURL]);
+            });
     }
 
     ngOnInit() {

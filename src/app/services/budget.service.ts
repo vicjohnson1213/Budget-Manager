@@ -5,32 +5,27 @@ import 'rxjs/add/operator/toPromise';
 
 import { Budget } from '../models/budget';
 
-import { AuthService } from './auth.service';
+import { HttpService } from '../shared/http.service';
 
 @Injectable()
 export class BudgetService {
     private url = '/api/v1/budget';
 
-    constructor(private http: Http,
-                private authService: AuthService) { }
+    constructor(private http: HttpService) { }
 
     /* BEGIN BUDGET GROUPS */
 
     get(): Promise<Budget> {
-        return this.http.get(this.url, {
-            headers: this.authService.createAuthHeaders()
-        })
-         .toPromise()
-         .then(response => {
-             return response.json() as Budget
-         })
-         .catch(this.handleError);
+        return this.http.get(this.url)
+            .toPromise()
+            .then(response => {
+                return response.json() as Budget
+            })
+            .catch(this.handleError);
     }
 
     createBudgetCategory(category): Promise<Budget> {
-        return this.http.post(this.url + '/categories', category, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.post(this.url + '/categories', category)
             .toPromise()
             .then(response => {
                 return response.json() as Budget
@@ -41,9 +36,7 @@ export class BudgetService {
     updateBudgetCategory(category): Promise<Budget> {
         var newUrl = this.url + '/categories/' + category.id;
 
-        return this.http.put(newUrl, category, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.put(newUrl, category)
             .toPromise()
             .then(response => {
                 return response.json() as Budget
@@ -54,9 +47,7 @@ export class BudgetService {
     deleteBudgetCategory(categoryId): Promise<Budget> {
         var newUrl = this.url + '/categories/' + categoryId;
 
-        return this.http.delete(newUrl, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.delete(newUrl)
             .toPromise()
             .then(response => {
                 return response.json() as Budget
@@ -73,9 +64,7 @@ export class BudgetService {
 
         item.budgetCategoryId = groupId;
 
-        return this.http.post(newUrl, item, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.post(newUrl, item)
             .toPromise()
             .then(response => {
                 return response.json() as Budget
@@ -88,9 +77,7 @@ export class BudgetService {
 
         item.budgetCategoryId = groupId;
 
-        return this.http.put(newUrl, item, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.put(newUrl, item)
             .toPromise()
             .then(response => {
                 return response.json() as Budget
@@ -99,9 +86,7 @@ export class BudgetService {
     }
 
     deleteBudgetItem(itemId): Promise<Budget> {
-        return this.http.delete(this.url + '/items/' + itemId, {
-            headers: this.authService.createAuthHeaders()
-        })
+        return this.http.delete(this.url + '/items/' + itemId)
             .toPromise()
             .then(response => {
                 return response.json() as Budget
