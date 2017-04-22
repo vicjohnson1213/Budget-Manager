@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -13,7 +12,6 @@ import { AuthService } from '../../services/auth.service';
 
 export class LoginComponent {
     user: User = new User();
-    returnURL: string;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -22,11 +20,8 @@ export class LoginComponent {
     login() {
         this.authService.login(this.user)
             .then(() => {
-                this.router.navigate([this.returnURL]);
+                var returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+                this.router.navigate([returnUrl]);
             });
-    }
-
-    ngOnInit() {
-        this.returnURL = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 }

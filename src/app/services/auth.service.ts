@@ -30,6 +30,10 @@ export class AuthService {
         
         return this.httpService.post(newUrl, {
             accessToken: localStorage.getItem('accessToken')
-        }).toPromise();
+        })
+            .toPromise()
+            .then(() => {
+                localStorage.removeItem('accessToken');
+            });
     }
 }
